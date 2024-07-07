@@ -1,60 +1,6 @@
+import pandas as pd
+import mplfinance as mpf
+df = pd.read_csv("D:\\datasets\\teslastock.csv", parse_dates=True, index_col='Date')
 
-# Load the Excel file
-file_path = "D:\\datasets\\arc_diagram.xlsx"
-df = pd.read_excel(file_path)
 
-# Display the first few rows of the dataset
-print(df.head())
-
-# Inspect the column names to ensure correct usage
-print("Column names:", df.columns)
-
-# Create a graph
-G = nx.Graph()
-
-# Assume the columns are named 'Source' and 'Target'
-# Adjust based on actual column names if different
-source_col = 'Source'  # Replace with the actual column name if different
-target_col = 'Target'  # Replace with the actual column name if different
-
-# Add nodes and edges from the DataFrame
-for index, row in df.iterrows():
-    G.add_edge(row[source_col], row[target_col])
-
-# Print basic information about the graph
-#print(nx.info(G))
-
-# Positions for nodes on the arc diagram
-nodes = list(G.nodes())
-pos = {node: (i, 1) for i, node in enumerate(nodes)}
-
-# Arc diagram layout
-fig, ax = plt.subplots(figsize=(12, 6))
-
-# Draw nodes as points on a line
-x_coords = np.arange(len(nodes))
-ax.plot(x_coords, [1] * len(nodes), 'bo')
-
-# Draw labels for each node
-for i, node in enumerate(nodes):
-    ax.text(i, 1.05, node, ha='center')
-
-# Draw arcs
-for edge in G.edges():
-    x0 = nodes.index(edge[0])
-    x1 = nodes.index(edge[1])
-    radius = abs(x1 - x0) / 2
-    center = (x0 + x1) / 2
-    theta = np.linspace(0, np.pi, 100)
-    x_arc = center + radius * np.cos(theta)
-    y_arc = 1 + radius * np.sin(theta)
-    ax.plot(x_arc, y_arc, color='grey')
-
-# Set plot limits and hide axes
-ax.set_xlim(-1, len(nodes))
-ax.set_ylim(0, 2)
-ax.axis('off')
-
-# Show plot
-plt.title('Arc Diagram')
-plt.show()
+mpf.plot(df, type='candle')
