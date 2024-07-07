@@ -1,0 +1,15 @@
+import pandas as pd
+import networkx as nx
+import plotly.graph_objects as go
+import matplotlib.pyplot as plt
+file_path = "D:\\datasets\\network.xlsx"
+df = pd.read_excel(file_path)
+df
+G2=nx.DiGraph()
+G2=nx.from_pandas_edgelist(df,source='user_name',target='follows_who',edge_attr='days')
+G2.nodes()
+pos=nx.spring_layout(G2)
+nx.draw_networkx_nodes(G2,pos)
+nx.draw_networkx_edges(G2,pos)
+nx.draw_networkx_labels(G2,pos)
+plt.show()
