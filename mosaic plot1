@@ -1,0 +1,12 @@
+import pandas as pd
+from statsmodels.graphics.mosaicplot import mosaic
+import matplotlib.pyplot as plt
+file_path = 'D:\datasets\Iris.csv'
+df = pd.read_csv(file_path)
+df['SepalLengthCategory'] = pd.cut(df['SepalLengthCm'], bins=4, labels=['Short', 'Medium', 'Long', 'Very Long'])
+
+# Create a mosaic plot for 'SepalLengthCategory' and 'Species'
+plt.figure(figsize=(12, 8))
+mosaic(df, ['SepalLengthCategory', 'Species'])
+plt.title('Mosaic Plot of Sepal Length Category and Iris Species')
+plt.show()
